@@ -2,7 +2,8 @@ import { ILoginRequest, IRegisterRequest } from "types/types";
 import { Request, Response } from "express";
 import { generateAccessToken } from "utils/utils";
 import bcrypt from "bcrypt";
-import { prisma } from "config/db.config";
+import { access_jwt_secret, prisma } from "config/db.config";
+import jwt from "jsonwebtoken";
 
 export const login = async (
   req: Request<{}, any, ILoginRequest>,
@@ -123,6 +124,34 @@ export const register = async (
       user,
     });
   } catch (err) {
+    res.status(500).json({ msg: "Internal server error" });
+  }
+};
+
+export const getUser = async (req: Request, res: Response) => {
+  try {
+    const token = req.cookies.accessToken;
+
+    if (!token) {
+      res.status(200).json({ user: null });
+      return;
+    }
+
+    const decoded = jwt.verify(token, access_jwt_secret) as { id: string };
+
+    const user = await prisma.user.findUnique({
+      where: { id: Number(decoded.id) },
+      select: { id: true, email: true, role: true },
+    });
+
+    if (!user) {
+      res.status(404).json({ msg: "User not found" });
+      return;
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error("Error fetching user:", error);
     res.status(500).json({ msg: "Internal server error" });
   }
 };

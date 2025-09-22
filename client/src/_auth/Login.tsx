@@ -2,9 +2,52 @@ import { useNavigate } from "react-router";
 import { icon } from "../assets/files";
 import { AiOutlineLock, AiOutlineMail } from "react-icons/ai";
 import { BsApple, BsGoogle, BsInstagram } from "react-icons/bs";
+import { useLogin } from "../lib/Tanstack/mutation/mutations";
+import type { ILogin } from "../types/types";
+import { toast } from "react-toastify";
+import { useState } from "react";
 
 const Login = () => {
   const navigate = useNavigate();
+
+  const { mutateAsync: loginUser } = useLogin();
+
+  const [user, setUser] = useState<ILogin>({
+    email: "",
+    password: "",
+  });
+
+  const handleNavigate = (params: string) => {
+    navigate(params);
+  };
+
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUser((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const isFormEmpty = Object.values(user).some(
+      (value) => value === "" || value.length <= 0
+    );
+
+    if (isFormEmpty) {
+      return toast.error("Tolong isi semua input.");
+    }
+
+    try {
+      await loginUser(user);
+      handleNavigate("/webapp/dashboard");
+      toast.success("Login berhasil!");
+    } catch (error) {
+      toast.error("Login gagal.");
+      console.error(error);
+    }
+  };
 
   return (
     <section className="bg-secondary-bg min-w-[40rem] min-h-[25rem] relative rounded border border-white/10 p-6 flex flex-col items-center text-white font-primary">
@@ -21,7 +64,7 @@ const Login = () => {
         </span>
       </div>
 
-      <form action="submit" className="w-full mt-6">
+      <form action="submit" className="w-full mt-6" onSubmit={handleSubmit}>
         <fieldset className="space-y-4">
           <div className="bg-input-bg rounded-lg border border-input-border flex flex-row items-center p-4 gap-2">
             <span>
@@ -31,6 +74,8 @@ const Login = () => {
             </span>
             <input
               type="text"
+              name="email"
+              onChange={handleInput}
               className="outline-none w-full"
               placeholder="Email Address"
             />
@@ -44,6 +89,8 @@ const Login = () => {
             </span>
             <input
               type="password"
+              name="password"
+              onChange={handleInput}
               className="outline-none w-full"
               placeholder="Password"
             />

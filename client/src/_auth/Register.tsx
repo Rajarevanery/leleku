@@ -3,9 +3,54 @@ import { icon } from "../assets/files";
 import { AiOutlineLock, AiOutlineMail } from "react-icons/ai";
 import { IoPersonOutline } from "react-icons/io5";
 import { BsApple, BsGoogle, BsInstagram } from "react-icons/bs";
+import { useRegister } from "../lib/Tanstack/mutation/mutations";
+import React, { useState } from "react";
+import { type IRegister } from "../types/types";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const navigate = useNavigate();
+  const { mutateAsync: registerUser } = useRegister();
+
+  const [user, setUser] = useState<IRegister>({
+    email: "",
+    full_name: "",
+    username: "",
+    password: "",
+    confirm_password: "",
+  });
+
+  const handleNavigate = (params: string) => {
+    navigate(params);
+  };
+
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUser((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const isFormEmpty = Object.values(user).some(
+      (value) => value === "" || value.length <= 0
+    );
+
+    if (isFormEmpty) {
+      return toast.error("Tolong isi semua input.");
+    }
+
+    try {
+      await registerUser(user);
+      handleNavigate("/auth/login");
+      toast.success("Register berhasil!");
+    } catch (error) {
+      toast.error("Register gagal.");
+      console.error(error);
+    }
+  };
 
   return (
     <section className="bg-secondary-bg min-w-[40rem] min-h-[30rem] relative rounded border border-white/10 p-6 flex flex-col items-center text-white font-primary">
@@ -22,7 +67,7 @@ const Register = () => {
         </span>
       </div>
 
-      <form action="submit" className="w-full mt-6">
+      <form action="submit" className="w-full mt-6" onSubmit={handleSubmit}>
         <fieldset className="space-y-4">
           <div className="bg-input-bg rounded-lg border border-input-border flex flex-row items-center p-4 gap-2">
             <span>
@@ -32,6 +77,8 @@ const Register = () => {
             </span>
             <input
               type="email"
+              name="email"
+              onChange={handleInput}
               className="outline-none w-full"
               placeholder="Email Address"
             />
@@ -46,6 +93,8 @@ const Register = () => {
               </span>
               <input
                 type="text"
+                name="full_name"
+                onChange={handleInput}
                 className="outline-none w-full"
                 placeholder="Full Name"
               />
@@ -59,6 +108,8 @@ const Register = () => {
               </span>
               <input
                 type="text"
+                name="username"
+                onChange={handleInput}
                 className="outline-none w-full"
                 placeholder="Username"
               />
@@ -73,6 +124,8 @@ const Register = () => {
             </span>
             <input
               type="password"
+              name="password"
+              onChange={handleInput}
               className="outline-none w-full"
               placeholder="Password"
             />
@@ -86,6 +139,8 @@ const Register = () => {
             </span>
             <input
               type="password"
+              name="confirm_password"
+              onChange={handleInput}
               className="outline-none w-full"
               placeholder="Confirm Password"
             />
