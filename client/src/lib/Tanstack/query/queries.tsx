@@ -7,3 +7,4 @@ export const useGetUser = () => {
     queryFn: async () => await getUser(),
   });
 };
+

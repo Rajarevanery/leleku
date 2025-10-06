@@ -10,3 +10,13 @@ export type IRegister = {
   username: string;
   full_name: string;
 };
+
+export type IUserData = {
+  email: string;
+  isAuthenticated: boolean;
+  role: string;
+  username: string;
+  full_name: string;
+  exp: number;
+  id: number;
+};

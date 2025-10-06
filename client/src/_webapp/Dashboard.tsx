@@ -1,9 +1,7 @@
-import React from 'react'
-
 const Dashboard = () => {
-  return (
-    <div>Dashboard</div>
-  )
-}
+  // const { email, id, isAuthenticated, role } = useAuthContext();
 
-export default Dashboard
+  return <div>Dashboard</div>;
+};
+
+export default Dashboard;
