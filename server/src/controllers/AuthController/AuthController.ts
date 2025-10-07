@@ -141,7 +141,14 @@ export const getUser = async (req: Request, res: Response) => {
 
     const user = await prisma.user.findUnique({
       where: { id: Number(decoded.id) },
-      select: { id: true, email: true, role: true },
+      select: {
+        id: true,
+        email: true,
+        role: true,
+        full_name: true,
+        exp: true,
+        username: true,
+      },
     });
 
     if (!user) {
@@ -154,4 +161,13 @@ export const getUser = async (req: Request, res: Response) => {
     console.error("Error fetching user:", error);
     res.status(500).json({ msg: "Internal server error" });
   }
+};
+
+export const logout = (req: Request, res: Response) => {
+  res.clearCookie("accessToken", {
+    httpOnly: true,
+    sameSite: "strict",
+  });
+
+  res.status(200).json({ msg: "Logged out successfully" });
 };

@@ -6,6 +6,7 @@ import Home from "./page/Home";
 import WebAppLayout from "./_webapp/layout/WebAppLayout";
 import { ToastContainer } from "react-toastify";
 import Dashboard from "./_webapp/Dashboard";
+import CreateCourse from "./_webapp/CreateCourse";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
 
         <Route path="/webapp" element={<WebAppLayout />}>
           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="create-course" element={<CreateCourse />} />
         </Route>
       </Routes>
     </main>

@@ -7,11 +7,11 @@ const Home = () => {
 
   return (
     <>
+      <img
+        src={hero}
+        className="w-screen h-screen fixed object-center object-cover brightness-50 -z-10"
+      />
       <section className="w-screen min-h-screen p-20 grid grid-cols-1 2xl:grid-cols-2 text-white place-items-center font-primary overflow-hidden relative">
-        <img
-          src={hero}
-          className="w-screen min-h-screen absolute object-cover brightness-50 -z-10"
-        />
         <div className="absolute inset-0 bg-gradient-to-b from-slate-900/70 via-slate-800/60 to-slate-900/80 -z-10" />
         <div className="flex flex-col justify-around h-full">
           <div>

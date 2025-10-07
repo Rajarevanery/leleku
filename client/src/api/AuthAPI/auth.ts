@@ -54,3 +54,16 @@ export async function getUser() {
     throw Error("Error");
   }
 }
+
+export async function logoutUser() {
+  try {
+    return await axios.post(
+      `${BASE_URL}/api/auth/logout`,
+      {},
+      { withCredentials: true }
+    );
+  } catch (error) {
+    console.error("Err: ", error);
+    throw error;
+  }
+}

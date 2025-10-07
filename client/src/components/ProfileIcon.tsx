@@ -3,7 +3,6 @@ import type { IUserData } from "../types/types";
 const ProfileIcon = (user_data: IUserData) => {
   const { email, role, username } = user_data;
 
-  console.log(user_data);
 
   return (
     <div>
