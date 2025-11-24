@@ -25,7 +25,7 @@ export async function loginUser(data: ILogin) {
 }
 
 export async function registerUser(data: IRegister) {
-  const { email, password, confirm_password, username, full_name } = data;
+  const { email, password, confirm_password, username, full_name, role } = data;
 
   try {
     const response = await axios.post(`${BASE_URL}/api/auth/register`, {
@@ -34,6 +34,7 @@ export async function registerUser(data: IRegister) {
       confirm_password,
       username,
       full_name,
+      role
     });
 
     return response;

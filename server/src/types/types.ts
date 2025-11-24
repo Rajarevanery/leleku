@@ -1,8 +1,8 @@
 import { Request } from "express";
 
 export enum Role {
-  Admin = "ADMIN",
-  User = "USER",
+  Teacher = "TEACHER",
+  Student = "STUDENT",
 }
 
 export type ILoginRequest = {
@@ -14,6 +14,7 @@ export type IRegisterRequest = ILoginRequest & {
   full_name: string;
   username: string;
   confirm_password: string;
+  role: Role;
 };
 
 export type IJWTPayload = {

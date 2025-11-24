@@ -11,6 +11,7 @@ export const useAuth = () => {
     exp: data?.exp ?? 0,
     username: data?.username ?? "UNKNOWN USERNAME",
     isAuthenticated: !!data?.id,
+    completedQuizzes: data?.completedQuizzes ? data.completedQuizzes : "NO DATA",
     isPending,
   };
 };

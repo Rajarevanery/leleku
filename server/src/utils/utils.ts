@@ -5,3 +5,4 @@ import { IJWTPayload } from "types/types";
 export const generateAccessToken = (data: IJWTPayload) => {
   return jwt.sign(data, access_jwt_secret, { expiresIn: "1d" });
 };
+

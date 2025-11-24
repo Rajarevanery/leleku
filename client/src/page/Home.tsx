@@ -17,7 +17,8 @@ const Home = () => {
           <div>
             <span className="text-xl font-semibold">Coba Sekarang!</span>
             <h1 className="text-8xl font-bold">
-              Belajar Ternak Lele Mudah & Menyenangkan
+              Belajar Ternak Lele
+              <span className="text-blue-400"> Mudah & Menyenangkan</span>
             </h1>
           </div>
           <p className="text-xl w-[37ch] opacity-50">
@@ -37,8 +38,8 @@ const Home = () => {
               <div className="flex flex-row gap-2 items-center">
                 {Array(5)
                   .fill("")
-                  .map(() => (
-                    <div>
+                  .map((_, idx) => (
+                    <div key={idx}>
                       <i className="text-yellow-400 text-xl">
                         <FaStar />
                       </i>

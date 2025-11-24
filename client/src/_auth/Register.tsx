@@ -18,6 +18,7 @@ const Register = () => {
     username: "",
     password: "",
     confirm_password: "",
+    role: "STUDENT",
   });
 
   const handleNavigate = (params: string) => {
@@ -28,6 +29,13 @@ const Register = () => {
     setUser((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleRoleChange = (role: "STUDENT" | "TEACHER") => {
+    setUser((prevState) => ({
+      ...prevState,
+      role,
     }));
   };
 
@@ -69,6 +77,31 @@ const Register = () => {
 
       <form action="submit" className="w-full mt-6" onSubmit={handleSubmit}>
         <fieldset className="space-y-4">
+          <div className="bg-input-bg border border-input-border rounded-lg p-1 flex flex-row">
+            <button
+              type="button"
+              onClick={() => handleRoleChange("STUDENT")}
+              className={`flex-1 py-2 rounded-md transition-colors cursor-pointer ${
+                user.role === "STUDENT"
+                  ? "bg-primary-button text-white"
+                  : "text-white/70 hover:text-white"
+              }`}
+            >
+              Student
+            </button>
+            <button
+              type="button"
+              onClick={() => handleRoleChange("TEACHER")}
+              className={`flex-1 py-2 rounded-md transition-colors cursor-pointer ${
+                user.role === "TEACHER"
+                  ? "bg-primary-button text-white"
+                  : "text-white/70 hover:text-white"
+              }`}
+            >
+              Teacher
+            </button>
+          </div>
+
           <div className="bg-input-bg rounded-lg border border-input-border flex flex-row items-center p-4 gap-2">
             <span>
               <i className="text-2xl">
@@ -146,8 +179,8 @@ const Register = () => {
             />
           </div>
 
-          <button className="bg-primary-button w-full h-[3rem] rounded-lg">
-            Register
+          <button className="bg-primary-button w-full h-[3rem] rounded-lg cursor-pointer">
+            Register as {user.role === "STUDENT" ? "Student" : "Teacher"}
           </button>
 
           <div className="flex flex-row gap-2 justify-center items-center">

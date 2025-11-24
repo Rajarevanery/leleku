@@ -1,5 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+table,
+th,
+td {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  padding: 8px;
+}
 
 @theme {
   --color-primary-bg: #121212;
@@ -20,3 +29,10 @@
 
   --font-primary: Inter, "sans-serif";
 }
+
+@keyframes levelglow {
+  0% { box-shadow: 0 0 8px rgba(255,255,255,0.2); }
+  50% { box-shadow: 0 0 22px rgba(255,255,255,0.5); }
+  100% { box-shadow: 0 0 8px rgba(255,255,255,0.2); }
+}
+

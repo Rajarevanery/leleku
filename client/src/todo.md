@@ -1,0 +1,1 @@
+- After quiz if it doesnt get atleast 75% tell the user they failed, and they can revisit the materi (easy because we alr associate the materi to quiz)

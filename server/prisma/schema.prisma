@@ -14,10 +14,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 enum Role {
-  USER
-  ADMIN
+  STUDENT
+  TEACHER
 }
 
 enum Difficulty {
@@ -28,53 +27,96 @@ enum Difficulty {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   full_name String
-  email String @unique
-  username String
-  password String
-  role Role @default(USER)
-  exp Int @default(0)
+  email     String   @unique
+  username  String
+  password  String
+  role      Role     @default(STUDENT)
+  exp       Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  completedQuizzes UserQuiz[]
+  decks            Deck[]
+  notes            NotebookEntry[]
+}
+
+model Material {
+  id           Int        @id @default(autoincrement())
+  title        String
+  image_url    String
+  content      String
+  difficulty   Difficulty
+  expReward    Int
+  expectedTime Int
+
+  quiz Quiz[]
+}
+
+model Quiz {
+  id      Int     @id @default(autoincrement())
+  title   String
+  summary String?
+
+  materialId Int
+  material   Material @relation(fields: [materialId], references: [id], onDelete: Cascade)
+
+  questions Question[]
+
+  completedBy UserQuiz[]
+}
+
+model UserQuiz {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  quizId      Int
+  completedAt DateTime @default(now())
+  expClaimed  Boolean  @default(false)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quiz Quiz @relation(fields: [quizId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, quizId])
+}
+
+model Question {
+  id            Int      @id @default(autoincrement())
+  question      String
+  correctAnswer Int
+  choices       Json
+  createdAt     DateTime @default(now())
+  quizId        Int
+  quiz          Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+}
+
+model Deck {
+  id        String      @id @default(uuid())
+  title     String
+  userId    Int
+  user      User        @relation(fields: [userId], references: [id])
+  cards     Flashcard[]
+  createdAt DateTime    @default(now())
+}
+
+model Flashcard {
+  id       String  @id @default(uuid())
+  question String
+  answer   String
+  hint     String?
+
+  deckId String
+  deck   Deck   @relation(fields: [deckId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model Material {
-  id Int @id @default(autoincrement())
-  title String
-
-  content String
-  difficulty Difficulty
-  expReward Int
-  expectedTime Int
-
-  quiz Quiz?
-
-}
-
-model Quiz {
-  id        Int        @id @default(autoincrement())
+model NotebookEntry {
+  id        Int      @id @default(autoincrement())
   title     String
-  summary   String?
-
-  materialId Int   @unique
-  material   Material @relation(fields: [materialId], references: [id])
-
-  questions Question[]
-}
-
-model Question {
-  id        Int       @id @default(autoincrement())
-  text      String
-  quizId    Int
-  quiz      Quiz      @relation(fields: [quizId], references: [id])
-  choices   Choice[]
-}
-
-model Choice {
-  id          Int      @id @default(autoincrement())
-  text        String
-  isCorrect   Boolean  @default(false)
-  questionId  Int
-  question    Question @relation(fields: [questionId], references: [id])
+  content   String
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

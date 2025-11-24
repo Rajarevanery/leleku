@@ -59,7 +59,8 @@ export const register = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { email, password, confirm_password, username, full_name } = req.body;
+    const { email, password, confirm_password, username, full_name, role } =
+      req.body;
 
     const requiredFields = {
       email,
@@ -67,7 +68,10 @@ export const register = async (
       confirm_password,
       username,
       full_name,
+      role,
     };
+
+    console.log(role);
 
     if (password != confirm_password) {
       res
@@ -96,12 +100,14 @@ export const register = async (
         email,
         username,
         full_name,
+        role,
         password: hashed,
       },
       select: {
         id: true,
         email: true,
         exp: true,
+        role: true,
         full_name: true,
         username: true,
       },
@@ -148,6 +154,11 @@ export const getUser = async (req: Request, res: Response) => {
         full_name: true,
         exp: true,
         username: true,
+        completedQuizzes: {
+          include: {
+            quiz: true,
+          },
+        },
       },
     });
 

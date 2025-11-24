@@ -9,6 +9,7 @@ type AuthContextType = {
   full_name: string;
   username: string;
   exp: number;
+  completedQuizzes: any;
 };
 
 export const AuthContext = createContext<AuthContextType | null>(null);
