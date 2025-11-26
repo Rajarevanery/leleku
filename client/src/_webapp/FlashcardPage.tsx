@@ -56,6 +56,7 @@ const FlashcardPage = () => {
   };
 
   const nextCard = () => {
+    setShowHint(false);
     if (currentIndex + 1 >= shuffledCards.length) {
       setFinished(true);
     } else {
@@ -122,36 +123,27 @@ const FlashcardPage = () => {
         <p className="text-sm opacity-70 mb-2">
           {currentIndex + 1} / {shuffledCards.length}
         </p>
-        <motion.div
-          key={currentIndex}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1, x: [500, 0], rotate: [30, 0] }}
-          exit={{ opacity: 0, x: [0, -500], rotate: [0, 30] }}
-          transition={{
-            duration: 1,
-            type: "tween",
-          }}
+        <div
           onClick={() => setFlipped(!flipped)}
-          className="w-full max-w-lg h-72 bg-input-bg border border-white/20 rounded-2xl flex items-center justify-center text-center p-8 text-xl font-semibold cursor-pointer overflow-y-auto scrollbar-thin scrollbar-thumb-white/20"
+          className="w-full max-w-lg h-72 bg-input-bg border border-white/20 rounded-2xl flex flex-col gap-4 items-center justify-center text-center p-8 text-xl font-semibold cursor-pointer overflow-y-auto scrollbar-thin scrollbar-thumb-white/20"
         >
           {flipped ? (
             <div className="space-y-2 break-words">
-              <p className="text-primary-button text-sm mb-1">Answer</p>
+              <p className="text-green-600 text-sm mb-1">Answer</p>
               {card.answer}
             </div>
           ) : (
             <div className="break-words">
               <p className="text-primary-button text-sm mb-1">Question</p>
               {card.question}
-
-              {showHint && card.hint && (
-                <p className="text-yellow-400 mt-2 text-sm opacity-80">
-                  Hint: {card.hint}
-                </p>
-              )}
             </div>
           )}
-        </motion.div>
+          {showHint && card.hint && (
+            <p className="text-yellow-400 mt-2 text-sm opacity-80">
+              Hint: {card.hint}
+            </p>
+          )}
+        </div>
         <div className="flex gap-4 mt-6">
           <button
             onClick={prevCard}
@@ -162,9 +154,21 @@ const FlashcardPage = () => {
           </button>
           <button
             onClick={() => setFlipped(!flipped)}
-            className="px-4 py-2 rounded-lg bg-primary-button hover:brightness-75 transition"
+            disabled={showHint}
+            className={`px-4 py-2 rounded-lg ${
+              flipped
+                ? "bg-blue-600"
+                : "bg-blue-600 disabled:bg-input-bg disabled:border-[1px] disabled:border-white/20"
+            } hover:brightness-75 transition`}
           >
-            <FaRegLightbulb />
+            {flipped ? "Show Question" : "Show Answer"}
+          </button>
+          <button
+            onClick={() => setShowHint(!showHint)}
+            disabled={flipped}
+            className="px-4 py-2 rounded-lg bg-blue-600 disabled:bg-input-bg disabled:border-[1px] disabled:border-white/20 disabled: hover:brightness-75 transition "
+          >
+            {showHint ? "Unshow Hint" : "Show Hint"}
           </button>
           <button
             onClick={nextCard}
