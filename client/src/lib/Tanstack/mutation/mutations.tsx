@@ -24,6 +24,12 @@ import {
   deleteNotebook,
   updateNotebook,
 } from "../../../api/RootAPI/NotebookAPI";
+import { createDeck, deleteDeck, editDeck } from "../../../api/RootAPI/DeckAPI";
+import {
+  createFlashcard,
+  deleteFlashcard,
+  editFlashcard,
+} from "../../../api/RootAPI/FlashcardAPI";
 
 export const useLogin = () => {
   const queryClient = useQueryClient();
@@ -200,6 +206,131 @@ export const useDeleteNotebook = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["notebook"],
+      });
+    },
+  });
+};
+
+// ! DECK
+export const usePostDeck = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ title, userId }: { title: string; userId: number }) =>
+      createDeck({
+        title: title,
+        userId: userId,
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["deck"],
+      });
+    },
+  });
+};
+
+export const useDeleteDeck = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (deckId: string) => deleteDeck(deckId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["deck"],
+      });
+    },
+  });
+};
+
+export const useEditDeck = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ title, deckId }: { title: string; deckId: string }) =>
+      editDeck({
+        title: title,
+        id: deckId,
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["deck"],
+      });
+    },
+  });
+};
+
+// ! FLASHCARD
+// CREATE
+export const usePostFlashcard = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      question,
+      answer,
+      hint,
+      deckId,
+    }: {
+      question: string;
+      answer: string;
+      hint: string;
+      deckId: string;
+    }) =>
+      createFlashcard({
+        question: question,
+        answer: answer,
+        hint: hint,
+        deckId: deckId,
+      }),
+
+    onSuccess: () => {
+      // Invalidate flashcards list for that deck
+      queryClient.invalidateQueries({
+        queryKey: ["flashcards"],
+      });
+    },
+  });
+};
+
+// EDIT
+export const useEditFlashcard = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      question,
+      answer,
+      hint,
+      flashcardId,
+    }: {
+      question: string;
+      answer: string;
+      hint: string;
+      flashcardId: string;
+    }) =>
+      editFlashcard({
+        question: question,
+        answer: answer,
+        hint: hint,
+        flashcardId: flashcardId,
+      }),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["flashcards"],
+      });
+    },
+  });
+};
+
+// DELETE
+export const useDeleteFlashcard = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ flashcardId }: { flashcardId: string; }) =>
+      deleteFlashcard(flashcardId),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["flashcards"],
       });
     },
   });

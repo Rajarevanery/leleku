@@ -36,3 +36,10 @@ td {
   100% { box-shadow: 0 0 8px rgba(255,255,255,0.2); }
 }
 
+
+.perspective {
+  perspective: 1400px;
+}
+.backface-hidden {
+  backface-visibility: hidden;
+}

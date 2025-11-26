@@ -44,7 +44,9 @@ export const getAllFlashcardByDeckId = async (req: Request, res: Response) => {
       },
     });
 
-    res.status(200).json({ msg: "Successfully Get All Deck", data: response });
+    res
+      .status(200)
+      .json({ msg: "Successfully Get All Flashcard By Deck", data: response });
   } catch (error) {
     res.status(500).json({
       msg: "Internal server error",
@@ -69,7 +71,7 @@ export const editFlashcard = async (req: Request, res: Response) => {
     });
 
     res.status(200).json({
-      msg: "Successfully Get aLL Flashcard",
+      msg: "Edited Flashcard",
       data: response,
     });
   } catch (error) {

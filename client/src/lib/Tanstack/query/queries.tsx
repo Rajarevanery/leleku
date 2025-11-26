@@ -9,6 +9,8 @@ import {
   getAllNotebooks,
   getSingleNotebook,
 } from "../../../api/RootAPI/NotebookAPI";
+import { getAllDeckByUserId } from "../../../api/RootAPI/DeckAPI";
+import { getAllFlashcardByDeckId } from "../../../api/RootAPI/FlashcardAPI";
 
 export const useGetUser = () => {
   return useQuery({
@@ -56,5 +58,21 @@ export const useGetSingleNotebook = (id: number) => {
   return useQuery({
     queryKey: ["notebook", id],
     queryFn: async () => await getSingleNotebook(id),
+  });
+};
+
+// ! Deck Get
+export const useGetAllDeckByUserId = (userId: number) => {
+  return useQuery({
+    queryKey: ["deck", userId],
+    queryFn: async () => await getAllDeckByUserId(userId),
+  });
+};
+
+// ! Flashcard
+export const useGetFlashcards = (deckId: string) => {
+  return useQuery({
+    queryKey: ["flashcards", deckId],
+    queryFn: () => getAllFlashcardByDeckId(deckId),
   });
 };

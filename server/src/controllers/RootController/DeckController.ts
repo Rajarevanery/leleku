@@ -40,6 +40,9 @@ export const getAllDeckByUserId = async (req: Request, res: Response) => {
       where: {
         userId: Number(userId),
       },
+      include: {
+        cards: true,
+      },
     });
 
     res.status(200).json({ msg: "Successfully Getting Deck", data: response });

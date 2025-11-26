@@ -75,6 +75,8 @@ export async function editFlashcard({
 }
 
 export async function deleteFlashcard(flashcardId: string) {
+
+  console.log(flashcardId)
   try {
     const response = await axios.delete(
       `${BASE_URL}/api/flashcard/${flashcardId}`,

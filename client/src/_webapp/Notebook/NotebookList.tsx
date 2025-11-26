@@ -8,7 +8,7 @@ const NotebookList = () => {
   const { data, isPending } = useGetAllNotebooks();
 
   return (
-    <section className="w-full mx-auto bg-secondary-bg p-6 rounded-2xl">
+    <section className="w-full mx-auto bg-secondary-bg p-6 h-fit rounded-2xl">
       <div className="flex items-center justify-between">
         <div className="">
           <h1 className="text-3xl font-semibold flex items-center gap-4">

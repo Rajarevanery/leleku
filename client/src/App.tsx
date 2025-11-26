@@ -21,6 +21,7 @@ import ManageMateri from "./_webapp/Materi/ManageMateri";
 import EditMateri from "./_webapp/Materi/EditMateri";
 import ManageQuiz from "./_webapp/Quiz/ManageQuiz";
 import EditQuiz from "./_webapp/Quiz/EditQuiz";
+import FlashcardPage from "./_webapp/FlashcardPage";
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
           <Route path="list-materi/:id/edit" element={<EditMateri />} />
           <Route path="list-materi/manage" element={<ManageMateri />} />
           <Route path="flashcard" element={<FlashcardList />} />
+          <Route path="flashcard/:id" element={<FlashcardPage />} />
           <Route path="notebook" element={<NotebookList />} />
           <Route path="notebook/create" element={<CreateNotebook />} />
           <Route path="notebook/:id" element={<Notebook />} />
