@@ -16,25 +16,24 @@ const Dashboard = () => {
 
   if (quizPending || notebookPending) return <h1>Loading...</h1>;
 
-  const level = Math.floor(exp / 500);
-  const nextLevelXp = (level + 1) * 500;
-  const progressPercent = Math.min((exp / nextLevelXp) * 100, 100);
+  const baseXpPerLevel = 500;
+  const level = Math.floor(exp / baseXpPerLevel);
+  const currentLevelXp = level * baseXpPerLevel;
+  const nextLevelXp = (level + 1) * baseXpPerLevel;
+  const xpInCurrentLevel = exp - currentLevelXp;
+  const xpNeededForNextLevel = nextLevelXp - currentLevelXp;
+  const progressPercent = Math.min(
+    (xpInCurrentLevel / xpNeededForNextLevel) * 100,
+    100
+  );
 
   const totalCompleted = completedQuizzes?.length || 0;
 
   let rank = "Newbie";
-  if (totalCompleted >= 2 && totalCompleted <= 4) rank = "Beginner";
-  else if (totalCompleted >= 5 && totalCompleted <= 9) rank = "Intermediate";
-  else if (totalCompleted >= 10 && totalCompleted <= 19) rank = "Advanced";
-  else if (totalCompleted >= 20) rank = "Master";
-
-  const rankInfo = {
-    Newbie: "0–1 quizzes completed",
-    Beginner: "2–4 quizzes completed",
-    Intermediate: "5–9 quizzes completed",
-    Advanced: "10–19 quizzes completed",
-    Master: "20+ quizzes completed",
-  };
+  if (level >= 1 && level <= 2) rank = "Beginner";
+  else if (level >= 3 && level <= 5) rank = "Intermediate";
+  else if (level >= 6 && level <= 9) rank = "Advanced";
+  else if (level >= 10) rank = "Master";
 
   const lastTwoNotebooks =
     notebookData?.data?.slice()?.reverse()?.slice(0, 2) || [];
@@ -107,7 +106,7 @@ const Dashboard = () => {
         </div>
 
         <p className="mt-3 text-sm opacity-70">
-          {exp} / {nextLevelXp} XP to next level
+          {xpInCurrentLevel} / {xpNeededForNextLevel} XP to level {level + 1}
         </p>
       </div>
 
@@ -127,14 +126,14 @@ const Dashboard = () => {
           </div>
 
           <div className="text-5xl font-bold mt-2">{rank}</div>
-          <p className="opacity-50 text-sm mt-1">Based on progress</p>
+          <p className="opacity-50 text-sm mt-1">Based on level</p>
 
           <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 flex-col p-3 rounded-lg bg-secondary-bg transition backdrop-blur-lg border border-white/10 text-xs w-40 z-20">
-            <p className="opacity-90">Newbie: 0-1</p>
-            <p className="opacity-90">Beginner: 2-4</p>
-            <p className="opacity-90">Intermediate: 5-9</p>
-            <p className="opacity-90">Advanced: 10-19</p>
-            <p className="opacity-90">Master: 20+</p>
+            <p className="opacity-90">Newbie: Level 0</p>
+            <p className="opacity-90">Beginner: Level 1-2</p>
+            <p className="opacity-90">Intermediate: Level 3-5</p>
+            <p className="opacity-90">Advanced: Level 6-9</p>
+            <p className="opacity-90">Master: Level 10+</p>
           </div>
         </div>
       </div>
@@ -142,13 +141,16 @@ const Dashboard = () => {
       <div className="flex flex-col gap-4">
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-bold">Available Quizzes</h2>
-          <button className="text-primary-button hover:underline">
+          <button
+            onClick={() => navigate("/webapp/list-quiz")}
+            className="text-primary-button hover:underline cursor-pointer"
+          >
             View All
           </button>
         </div>
 
         <div className="grid grid-cols-2 gap-6">
-          {quizData.quiz.map((quiz) => (
+          {quizData.quiz.slice(0, 4).map((quiz) => (
             <div
               key={quiz.id}
               onClick={() => navigate(`/webapp/list-quiz/${quiz.id}`)}
@@ -181,7 +183,9 @@ const Dashboard = () => {
 
       <div className="flex flex-col gap-3">
         <h2 className="text-2xl font-bold">Your Latest Notebooks</h2>
-        <p className="opacity-70 text-sm">Your most recent thoughts, saved.</p>
+        <p className="opacity-70 text-sm">
+          Recent notebook, cek 2 terakhir catatan kamu.
+        </p>
 
         <div className="grid grid-cols-2 gap-6">
           {lastTwoNotebooks.map((nb) => (

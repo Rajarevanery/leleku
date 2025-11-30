@@ -1,13 +1,14 @@
 import { useNavigate, useParams } from "react-router";
 import { useGetMaterialById } from "../../lib/Tanstack/query/queries";
-import remarkGfm from "remark-gfm";
-import rehypeSanitize from "rehype-sanitize";
 import ReactMarkdown from "react-markdown";
 import { useState } from "react";
 import { convertDifficultyToColor } from "../../lib/utils";
 import { BiBook, BiTrophy } from "react-icons/bi";
 import { BsArrowRight, BsClock } from "react-icons/bs";
 import { FaStarOfLife } from "react-icons/fa";
+import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 import rehypeRaw from "rehype-raw";
 
 const Materi = () => {
@@ -117,7 +118,7 @@ const Materi = () => {
           alt=""
           className="w-full object-cover aspect-16/9 rounded-lg object-center h-[25rem]"
         />
-        <h1 className="bottom-5 z-10 right-5 text-xl font-semibold absolute">
+        <h1 className="bottom-5 z-10 right-5 text-sm text-neutral-500 font-semibold absolute">
           Materi {data.title}
         </h1>
         <div className="absolute inset-0 bg-gradient-to-t from-primary-bg to-transparent"></div>
@@ -127,8 +128,8 @@ const Materi = () => {
 
       <div className="prose prose-invert max-w-full text-white">
         <ReactMarkdown
-          remarkPlugins={[remarkGfm]}
-          rehypePlugins={[rehypeRaw, rehypeSanitize]}
+          remarkPlugins={[remarkGfm, remarkMath]}
+          rehypePlugins={[rehypeKatex, rehypeRaw]}
         >
           {data.content}
         </ReactMarkdown>

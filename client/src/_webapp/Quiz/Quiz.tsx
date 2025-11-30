@@ -6,11 +6,15 @@ import { BiBook, BiTrophy } from "react-icons/bi";
 import { useAuthContext } from "../../context/auth-context";
 import { useSubmitQuiz } from "../../lib/Tanstack/mutation/mutations";
 import { toast } from "react-toastify";
+import ReactConfetti from "react-confetti";
+import JSConfetti from "js-confetti";
+import { useWindowSize } from "react-use";
 
 const Quiz = () => {
   const { id } = useParams();
   const [confirm, setConfirm] = useState<boolean>(false);
   const [currentQuestion, setCurrentQuestion] = useState<number>(0);
+  const { width, height } = useWindowSize();
   const [selectedChoice, setSelectedChoice] = useState<number>();
   const [showJawaban, setShowJawaban] = useState<boolean>(false);
   const [userAnswers, setUserAnswers] = useState<number[]>([]);
@@ -21,6 +25,8 @@ const Quiz = () => {
   const { mutateAsync: submitUserQuiz } = useSubmitQuiz();
 
   const { data, isPending } = useGetQuizById(Number(id));
+
+  const jsConfetti = new JSConfetti();
 
   if (isPending) return <p>Loading...</p>;
 
@@ -35,6 +41,7 @@ const Quiz = () => {
     } else {
       if (currentQuestion === data.questions.length - 1) {
         setResultShown(true);
+        jsConfetti.addConfetti();
       } else {
         setCurrentQuestion((p) => p + 1);
         setShowJawaban(false);
@@ -162,6 +169,8 @@ const Quiz = () => {
           <h1 className="text-2xl font-semibold mb-4 text-center">
             Quiz Selesai
           </h1>
+
+          <ReactConfetti width={width} height={height} />
 
           <hr className="opacity-20 my-4" />
 

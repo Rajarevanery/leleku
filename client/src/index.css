@@ -43,3 +43,49 @@ td {
 .backface-hidden {
   backface-visibility: hidden;
 }
+
+
+.prose table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1rem 0;
+  border: 1px solid var(--color-input-border, #2a2a2a);
+}
+
+.prose th, .prose td {
+  border: 1px solid var(--color-input-border, #2a2a2a);
+  padding: 12px;
+  text-align: left;
+  vertical-align: top;
+  color: var(--color-primary-text, #ffffff);
+}
+
+.prose th {
+  background-color: var(--color-secondary-bg, #1b1b1b);
+  font-weight: bold;
+  color: var(--color-primary-text, #ffffff);
+}
+
+.prose td {
+  background-color: var(--color-primary-bg, #121212);
+}
+
+.prose tr:nth-child(even) td {
+  background-color: var(--color-secondary-bg, #1b1b1b);
+}
+
+.prose tr:hover td {
+  background-color: var(--color-input-bg, #1e1e1e);
+}
+
+.prose img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 4px;
+}
+
+.prose th:first-child {
+  border-left: 2px solid var(--color-blue-text, #0b99f4);
+}

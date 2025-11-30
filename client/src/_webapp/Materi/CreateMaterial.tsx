@@ -2,8 +2,10 @@ import { useState, useRef, useEffect, useMemo } from "react";
 import { FaBold, FaImage, FaItalic, FaLink } from "react-icons/fa6";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import rehypeSanitize from "rehype-sanitize";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 import rehypeRaw from "rehype-raw";
+
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
 import { approxReadTime, convertExp } from "../../lib/utils";
@@ -341,8 +343,8 @@ const CreateMaterial = () => {
         ) : (
           <div className="prose prose-invert max-w-full block text-white break-words overflow-hidden">
             <ReactMarkdown
-              remarkPlugins={[remarkGfm]}
-              rehypePlugins={[rehypeRaw, rehypeSanitize]}
+              remarkPlugins={[remarkGfm, remarkMath]}
+              rehypePlugins={[rehypeKatex, rehypeRaw]}
             >
               {markdownContent}
             </ReactMarkdown>

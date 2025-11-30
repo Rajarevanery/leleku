@@ -1,6 +1,7 @@
 import { Outlet, useNavigate } from "react-router";
 import Sidebar from "../../components/Sidebar";
 import { useAuthContext } from "../../context/auth-context";
+import LeleChatbot from "../../components/LeleChatbot";
 
 const WebAppLayout = () => {
   const {
@@ -45,6 +46,7 @@ const WebAppLayout = () => {
       <div className="p-6 flex flex-1">
         <Outlet />
       </div>
+      <LeleChatbot />
     </div>
   );
 };

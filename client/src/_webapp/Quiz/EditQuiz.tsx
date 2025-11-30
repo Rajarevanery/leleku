@@ -9,11 +9,12 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import { useEditQuiz } from "../../lib/Tanstack/mutation/mutations";
 import { toast } from "react-toastify";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 const EditQuiz = () => {
   const { id } = useParams();
   const quizId = Number(id);
+  const navigate = useNavigate();
 
   const { data: materials } = useGetAllMaterial();
   const { data: quizData } = useGetQuizById(quizId);
@@ -108,6 +109,7 @@ const EditQuiz = () => {
       });
 
       toast.success("Quiz updated");
+      navigate("/webapp/list-quiz/manage");
     } catch (err) {
       toast.error("Error");
     }

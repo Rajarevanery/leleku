@@ -6,10 +6,12 @@ import { useGetAllMaterial } from "../../lib/Tanstack/query/queries";
 import { v4 as uuidv4 } from "uuid";
 import { usePostQuiz } from "../../lib/Tanstack/mutation/mutations";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router";
 
 const CreateQuiz = () => {
   const { data } = useGetAllMaterial();
   const { mutateAsync: createQuiz } = usePostQuiz();
+  const navigate = useNavigate();
 
   const [quizInformation, setQuizInformation] = useState({
     title: "",
@@ -95,6 +97,7 @@ const CreateQuiz = () => {
         questions: questions,
       });
       toast.success("Success");
+      navigate("/webapp/list-quiz");
     } catch (error) {
       console.log(error);
       toast.error("Error");

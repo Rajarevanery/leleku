@@ -83,7 +83,7 @@ const FlashcardList = () => {
             <div
               key={deck.id}
               onClick={() => navigate(`${deck.id}`)}
-              className="p-5 bg-input-bg/50 border border-white/10 rounded-xl 
+              className="p-5 bg-input-bg/50 border border-white/20 rounded-xl 
              flex items-center justify-between hover:bg-input-bg/70 transition
              shadow-sm cursor-pointer"
             >
